@@ -154,9 +154,10 @@ function! intero#repl#type_on_hover()
         let l:new_word_under_cursor = expand("<cword>")
         if s:word_under_cursor !=# l:new_word_under_cursor
             let l:ident = intero#util#get_haskell_identifier()
-            echom "  ident" . l:ident
+            echom "  ident " . l:ident
             if l:ident
-                call intero#process#add_handler(function('intero#repl#type_on_hover_handler'))
+                echom "  getting type info"
+                call intero#process#add_handler(function('InteroTypeOnHoverHandler'))
                 call intero#repl#send(':type ' . l:ident)
             endif
             let s:word_under_cursor = l:new_word_under_cursor
@@ -164,7 +165,7 @@ function! intero#repl#type_on_hover()
     endif
 endfunction
 
-function! intero#repl#type_on_hover_handler(lines)
+function! InteroTypeOnHoverHandler(lines)
     echom "  resp" . join(a:lines, '\n')
     if len(a:lines) > 0
         let l:message = a:lines[0]
