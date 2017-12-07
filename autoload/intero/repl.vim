@@ -147,6 +147,16 @@ function! intero#repl#uses() abort
     endif
 endfunction
 
+function! g:InteroTypeOnHoverHandler(lines)
+    echom "  resp: " . join(a:lines, '\n')
+    if len(a:lines) > 0
+        let l:message = a:lines[0]
+        " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
+        " use that to display the type information instead of echo.
+        echo l:message
+    endif
+endfunction
+
 let s:word_under_cursor = ""
 function! intero#repl#type_on_hover()
     echom "Getting type info on hover"
@@ -162,16 +172,6 @@ function! intero#repl#type_on_hover()
             endif
             let s:word_under_cursor = l:new_word_under_cursor
         endif
-    endif
-endfunction
-
-function! g:InteroTypeOnHoverHandler(lines)
-    echom "  resp: " . join(a:lines, '\n')
-    if len(a:lines) > 0
-        let l:message = a:lines[0]
-        " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
-        " use that to display the type information instead of echo.
-        echo l:message
     endif
 endfunction
 
