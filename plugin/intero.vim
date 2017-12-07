@@ -91,7 +91,7 @@ if g:intero_type_on_hover
     " Get type information when you hold the cursor still for some time.
     augroup interoTypeOnHover
         au!
-        au CursorHold *.hs call intero#repl#type_on_hover
+        au CursorHold *.hs call intero#repl#type_on_hover()
     augroup END
 endif
 
