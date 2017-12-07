@@ -7,6 +7,10 @@ if !exists('g:intero_use_neomake')
     let g:intero_use_neomake = 1
 endif
 
+if !exists('g:intero_type_on_hover')
+    let g:intero_type_on_hover = 0
+endif
+
 " Starts the Intero process in the background.
 command! -nargs=0 -bang InteroStart call intero#process#start()
 " Kills the Intero process.
@@ -78,6 +82,17 @@ if g:intero_use_neomake
             \ 'args': [intero#maker#get_log_file()],
             \ 'errorformat': s:efm
         \ }
+endif
+
+if g:intero_type_on_hover
+    " Make the update time shorter, so the type info will trigger faster. An alternative to
+    " lowering this is to use CursorMove/CursorMoveI.
+    set updatetime=1000
+    " Get type information when you hold the cursor still for some time.
+    augroup interoTypeOnHover
+        au!
+        au CursorHold *.hs call intero#repl#type_on_hover()
+    augroup END
 endif
 
 " vim: set ts=4 sw=4 et fdm=marker:
