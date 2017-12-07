@@ -214,7 +214,7 @@ function! intero#repl#toggle_type_on_hover() abort
     endif
 endfunction
 
-function! intero#repl#enable_type_on_hover()
+function! intero#repl#enable_type_on_hover() abort
     let g:intero_type_on_hover = 1
     " Make the update time shorter, so the type info will trigger faster. An alternative to
     " lowering this is to use CursorMove/CursorMoveI.
