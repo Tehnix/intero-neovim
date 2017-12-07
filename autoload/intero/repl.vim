@@ -162,7 +162,7 @@ function! intero#repl#type_on_hover()
     endif
 endfunction
 
-function! intero#repl#type_on_hover_handler()
+function! intero#repl#type_on_hover_handler(lines)
     if len(a:lines) > 0
         let l:message = a:lines[0]
         " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
