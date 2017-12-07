@@ -149,24 +149,25 @@ endfunction
 
 let s:word_under_cursor = ""
 function! intero#repl#type_on_hover()
-  let l:new_word_under_cursor = expand("<cword>")
-  if s:word_under_cursor  !=# l:new_word_under_cursor
-    let l:ident = intero#util#get_haskell_identifier()
-    if l:ident
-        call intero#process#add_handler(function('intero#repl#type_on_hover_handler'))
-        call intero#repl#send(':type ' . l:ident)
+    if g:intero_started
+        let l:new_word_under_cursor = expand("<cword>")
+        if s:word_under_cursor !=# l:new_word_under_cursor
+            let l:ident = intero#util#get_haskell_identifier()
+            if l:ident
+                call intero#process#add_handler(function('intero#repl#type_on_hover_handler'))
+                call intero#repl#send(':type ' . l:ident)
+        endif
+        let s:word_under_cursor = l:new_word_under_cursor
     endif
-    let s:word_under_cursor = l:new_word_under_cursor
-  endif
 endfunction
 
 function! intero#repl#type_on_hover_handler(lines)
-  if len(a:lines) > 0
-    let l:message = a:lines[0]
-    " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
-    " use that to display the type information instead of echo.
-    echo l:message
-  endif
+    if len(a:lines) > 0
+        let l:message = a:lines[0]
+        " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
+        " use that to display the type information instead of echo.
+        echo l:message
+    endif
 endfunction
 
 """"""""""
