@@ -49,6 +49,12 @@ command! -nargs=* -bang InteroSetTargets call intero#process#restart_with_target
 command! -nargs=0 -bang InteroUseAllTargets call intero#targets#enable_all_targets()
 " Clear the cached targets (useful if you've moved into a new stack project)
 command! -nargs=0 -bang InteroClearTargetCache call intero#targets#clear_target_cache()
+" Toggle type information on hover.
+command! -nargs=0 -bang InteroToggleTypeOnHover call intero#repl#toggle_type_on_hover()
+" Enable type information on hover.
+command! -nargs=0 -bang InteroEnableTypeOnHover call intero#repl#enable_type_on_hover()
+" Disable type information on hover.
+command! -nargs=0 -bang InteroDisableTypeOnHover call intero#repl#disable_type_on_hover()
 
 " Same as the :InteroType commands, but as maps (so they work with selections)
 noremap <expr> <Plug>InteroType intero#repl#pos_for_type(0)
@@ -85,14 +91,12 @@ if g:intero_use_neomake
 endif
 
 if g:intero_type_on_hover
-    " Make the update time shorter, so the type info will trigger faster. An alternative to
-    " lowering this is to use CursorMove/CursorMoveI.
-    set updatetime=1000
-    " Get type information when you hold the cursor still for some time.
-    augroup interoTypeOnHover
-        au!
-        au CursorHold *.hs call intero#repl#type_on_hover()
-    augroup END
+    InteroEnableTypeOnHover
 endif
+" Get type information when you hold the cursor still for some time.
+augroup interoTypeOnHover
+    au!
+    au CursorHold *.hs call intero#repl#type_on_hover()
+augroup END
 
 " vim: set ts=4 sw=4 et fdm=marker:
