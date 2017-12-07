@@ -147,31 +147,27 @@ function! intero#repl#uses() abort
     endif
 endfunction
 
-function! g:InteroTypeOnHoverHandler(lines)
-    echom "  resp: " . join(a:lines, '\n')
+let s:word_under_cursor = ""
+function! intero#repl#type_on_hover()
+    if g:intero_started
+        let l:new_word_under_cursor = expand("<cword>")
+        if s:word_under_cursor !=# l:new_word_under_cursor
+            let l:ident = intero#util#get_haskell_identifier()
+            if !empty(l:ident)
+                call intero#process#add_handler(function('intero#repl#type_on_hover_handler'))
+                call intero#repl#send(':type ' . l:ident)
+            endif
+            let s:word_under_cursor = l:new_word_under_cursor
+        endif
+    endif
+endfunction
+
+function! intero#repl#type_on_hover_handler()
     if len(a:lines) > 0
         let l:message = a:lines[0]
         " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
         " use that to display the type information instead of echo.
         echo l:message
-    endif
-endfunction
-
-let s:word_under_cursor = ""
-function! intero#repl#type_on_hover()
-    echom "Getting type info on hover"
-    if g:intero_started
-        let l:new_word_under_cursor = expand("<cword>")
-        if s:word_under_cursor !=# l:new_word_under_cursor
-            let l:ident = intero#util#get_haskell_identifier()
-            echom "  ident " . l:ident
-            if l:ident
-                echom "  getting type info"
-                call intero#process#add_handler(function('g:InteroTypeOnHoverHandler'))
-                call intero#repl#send(':type ' . l:ident)
-            endif
-            let s:word_under_cursor = l:new_word_under_cursor
-        endif
     endif
 endfunction
 
