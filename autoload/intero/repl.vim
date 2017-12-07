@@ -156,8 +156,9 @@ function! intero#repl#type_on_hover()
             if l:ident
                 call intero#process#add_handler(function('intero#repl#type_on_hover_handler'))
                 call intero#repl#send(':type ' . l:ident)
+            endif
+            let s:word_under_cursor = l:new_word_under_cursor
         endif
-        let s:word_under_cursor = l:new_word_under_cursor
     endif
 endfunction
 
