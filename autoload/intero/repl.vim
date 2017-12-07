@@ -206,7 +206,7 @@ function! g:intero#repl#get_type_signature_line_replacement(existing_line, type_
                 \ + l:indented + [l:indent . l:suffix]
 endfunction
 
-function! intero#repl#toggle_type_on_hover()
+function! intero#repl#toggle_type_on_hover() abort
     if g:intero_type_on_hover
         call intero#repl#disable_type_on_hover()
     else
@@ -221,12 +221,12 @@ function! intero#repl#enable_type_on_hover()
     set updatetime=1000
 endfunction
 
-function! intero#repl#disable_type_on_hover()
+function! intero#repl#disable_type_on_hover() abort
     let g:intero_type_on_hover = 0
     exe 'set updatetime=' . s:original_update_time
 endfunction
 
-function! intero#repl#type_on_hover()
+function! intero#repl#type_on_hover() abort
     if g:intero_type_on_hover && g:intero_started
         let l:new_word_under_cursor = expand('<cword>')
         if s:word_under_cursor !=# l:new_word_under_cursor
@@ -240,7 +240,7 @@ function! intero#repl#type_on_hover()
     endif
 endfunction
 
-function! intero#repl#type_on_hover_handler(lines)
+function! intero#repl#type_on_hover_handler(lines) abort
     if len(a:lines) > 0
         let l:message = a:lines[0]
         " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
