@@ -157,7 +157,7 @@ function! intero#repl#type_on_hover()
             echom "  ident " . l:ident
             if l:ident
                 echom "  getting type info"
-                call intero#process#add_handler(function('InteroTypeOnHoverHandler'))
+                call intero#process#add_handler(function('g:InteroTypeOnHoverHandler'))
                 call intero#repl#send(':type ' . l:ident)
             endif
             let s:word_under_cursor = l:new_word_under_cursor
@@ -165,8 +165,8 @@ function! intero#repl#type_on_hover()
     endif
 endfunction
 
-function! InteroTypeOnHoverHandler(lines)
-    echom "  resp" . join(a:lines, '\n')
+function! g:InteroTypeOnHoverHandler(lines)
+    echom "  resp: " . join(a:lines, '\n')
     if len(a:lines) > 0
         let l:message = a:lines[0]
         " NOTE: Whenever this is merged https://github.com/neovim/neovim/pull/6619, we could
