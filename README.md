@@ -150,6 +150,8 @@ let g:intero_start_immediately = 0
 
 " Enable type information on hover (when holding cursor at point for ~1 second).
 let g:intero_type_on_hover = 1
+" OPTIONAL: Make the update time shorter, so the type info will trigger faster.
+set updatetime=1000
 ```
 
 ## Caveats

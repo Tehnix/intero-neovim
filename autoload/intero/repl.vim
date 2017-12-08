@@ -12,9 +12,6 @@ let s:insert_type_identifier = 0
 " type info on hover when it's the same identifier.
 let s:word_under_cursor = ''
 
-" Remember the original updatetime, so it can be reset to this.
-let s:original_update_time = &updatetime
-
 function! intero#repl#eval(...) abort
     if !g:intero_started
         echoerr 'Intero is still starting up'
@@ -216,14 +213,10 @@ endfunction
 
 function! intero#repl#enable_type_on_hover() abort
     let g:intero_type_on_hover = 1
-    " Make the update time shorter, so the type info will trigger faster. An alternative to
-    " lowering this is to use CursorMove/CursorMoveI.
-    set updatetime=1000
 endfunction
 
 function! intero#repl#disable_type_on_hover() abort
     let g:intero_type_on_hover = 0
-    exe 'set updatetime=' . s:original_update_time
 endfunction
 
 function! intero#repl#type_on_hover() abort
