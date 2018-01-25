@@ -32,6 +32,12 @@ Some key features:
   The installation is local (not global!). This means that Intero is always
   current for each of your projects. The goal of Intero is to Just Work™.
 
+- **Bring Your Own GHCi**
+
+  You can configure the plugin to use a custom *backend*, e.g. `cabal repl` or
+  plain `ghci`, instead of the default Intero backend. Newer features are
+  enabled based on the GHCi version.
+
 - **On-the-fly Typechecking**
 
   Intero reports errors and warnings as you work on your file using the Neomake
@@ -153,6 +159,27 @@ let g:intero_type_on_hover = 1
 " OPTIONAL: Make the update time shorter, so the type info will trigger faster.
 set updatetime=1000
 ```
+
+## Using a Custom Backend
+
+The default Intero backend can be overriden, so that you can use this plugin
+without Stack and Intero. The following configuration uses `cabal new-repl`,
+and specifies a `cwd` for a sub-directory project:
+
+``` vim
+let g:intero_backend = {
+        \ 'command': 'cabal new-repl',
+        \ 'options': '-Wall',
+        \ 'cwd': expand('%:p:h')
+        | }
+```
+
+Such configuration can be set per-project using a [local .nvimrc
+file](https://andrew.stwrt.ca/posts/project-specific-vimrc/), or in your init
+file for a system-wide effect.
+
+**NOTE:** If `g:intero_backend` is set, `g:intero_ghci_options` and
+`g:intero_load_targets` have no effect.
 
 ## Caveats
 
